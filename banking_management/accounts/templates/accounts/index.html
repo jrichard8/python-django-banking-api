@@ -1,0 +1,12 @@
+{% if account_list %}
+    <ul>
+    {% for account in account_list %}
+        <li><a href="/accounts/{{ account.account_no }}/">{{ account.account_no }}</a></li>
+        <li>{{ account.balance }}</li>
+        <li>{{ account.creation_date }}</li>
+        <li>{{ account.user }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No accounts are available.</p>
+{% endif %}

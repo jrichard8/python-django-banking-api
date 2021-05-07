@@ -1,0 +1,8 @@
+*.pyc
+.idea/*
+.vscode/*
+venv/*
+src/static/*
+media/*
+pgdata/*
+db.sqlite3
