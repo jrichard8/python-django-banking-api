@@ -22,3 +22,10 @@ class NewAccountForm(forms.ModelForm):
         formatted_date = datetime.date.today().strftime("%Y-%m-%d")
         acc = Account(account_no=uuid, balance=balance, customer=customer, creation_date=formatted_date)
         acc.save()
+
+
+class AccountBalanceForm(forms.ModelForm):
+    class Meta:
+        model = Account
+        fields = ('account_no',)
+

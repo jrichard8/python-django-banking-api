@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect
 
-from .form import NewAccountForm
+from .form import NewAccountForm, AccountBalanceForm
 from .models import Account
 from ..customers.models import Customer
 
@@ -24,3 +24,10 @@ def create_account_request(request):
     customer_list = Customer.objects.all()
     context = {'customer_list': customer_list, 'account_form': form}
     return render(request, "accounts/account_creation.html", context)
+
+
+def get_balance_request(request):
+    form = AccountBalanceForm
+    customer_list = Customer.objects.all()
+    context = {'customer_list': customer_list, 'account_form': form}
+    return render(request, "accounts/account_balance.html", context)
