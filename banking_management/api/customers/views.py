@@ -18,7 +18,7 @@ def create_customer_request(request):
             form.save()
             messages.success(request, "Creation successful.")
             return redirect("home")
-        # messages.error(request, "Unsuccessful creation. Invalid information.")
+        messages.error(request, "Unsuccessful creation. Invalid information.")
     form = NewCustomerForm
     customer_list = Customer.objects.all()
     context = {'customer_list': customer_list, 'customer_form': form}

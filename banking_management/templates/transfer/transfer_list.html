@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% load crispy_forms_tags %}
+
+<div class="container">
+    <div class="jumbotron jumbotron-fluid">
+      <div class="container">
+        <h1> TRANSFER LIST </h1>
+        <a class="btn btn-primary btn-lg" href="new" role="button">Create new transfer</a>
+      </div>
+    </div>
+    <div class="row">
+      {% if transfer_list %}
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">id</th>
+              <th scope="col">amount</th>
+              <th scope="col">from</th>
+              <th scope="col">to</th>
+              <th scope="col">date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for transfer in transfer_list %}
+            <tr>
+              <td>{{ transfer.id }}</td>
+              <td>{{ transfer.amount }}</td>
+              <td>{{ transfer.from_account }}</td>
+              <td>{{ transfer.to_account }}</td>
+              <td>{{ transfer.date }}</td>
+            </tr>
+           {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+            <p>No transfers are available.</p>
+        {% endif %}
+    </div>
+</div>
+
+
+{% endblock %}

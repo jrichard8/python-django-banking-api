@@ -26,6 +26,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('user/', include('django.contrib.auth.urls')),
     path('accounts/', include('api.accounts.urls'), name='accounts'),
+    path('transfers/', include('api.transfers.urls'), name='accounts'),
     path('openapi/', get_schema_view(
         title="Banking api",
         description="API description "

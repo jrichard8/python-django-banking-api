@@ -19,7 +19,6 @@ class NewAccountForm(forms.ModelForm):
         balance = self.data['balance']
         uuid = uuid4()
         customer = Customer.objects.get(id=customer_id)
-        d = datetime.date.today()
-        formatted_date = d.strftime("%Y-%m-%d")
+        formatted_date = datetime.date.today().strftime("%Y-%m-%d")
         acc = Account(account_no=uuid, balance=balance, customer=customer, creation_date=formatted_date)
         acc.save()
