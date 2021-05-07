@@ -18,13 +18,14 @@ from django.urls import include, path
 from django.views.generic import TemplateView
 from rest_framework.schemas import get_schema_view
 
-from .views import HomeView
+from . import views
 
 urlpatterns = [
-    path('', HomeView.as_view(), name='home'),
-    path('customers/', include('customers.urls')),
+    path('', views.HomeView.as_view(), name='home'),
+    path('customers/', include('api.customers.urls')),
     path('admin/', admin.site.urls),
-    path('accounts/', include('accounts.urls')),
+    path('user/', include('django.contrib.auth.urls')),
+    path('accounts/', include('api.accounts.urls'), name='accounts'),
     path('openapi/', get_schema_view(
         title="Banking api",
         description="API description "
@@ -33,4 +34,5 @@ urlpatterns = [
         template_name='documentation.html',
         extra_context={'schema_url': 'openapi-schema'}
     ), name='swagger-ui'),
+    path("register", views.register_request, name="register"),
 ]

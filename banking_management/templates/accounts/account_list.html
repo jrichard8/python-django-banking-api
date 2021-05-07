@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% load crispy_forms_tags %}
+
+<div class="container">
+    <div class="jumbotron jumbotron-fluid">
+      <div class="container">
+        <h1> ACCOUNTS LIST </h1>
+        <a class="btn btn-primary btn-lg" href="new" role="button">Create new account</a>
+      </div>
+    </div>
+    <div class="row">
+      {% if account_list %}
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">account_no</th>
+              <th scope="col">balance</th>
+              <th scope="col">creation_date</th>
+              <th scope="col">owner</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for account in account_list %}
+            <tr>
+              <td>{{ account.account_no }}</td>
+              <td>{{ account.balance }}</td>
+              <td>{{ account.creation_date }}</td>
+              <td>{{ account.user }}</td>
+            </tr>
+           {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+            <p>No accounts are available.</p>
+        {% endif %}
+    </div>
+</div>
+
+
+{% endblock %}

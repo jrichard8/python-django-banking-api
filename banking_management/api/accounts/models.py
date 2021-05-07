@@ -1,13 +1,14 @@
 import uuid
 
-from django.contrib.auth.models import User
 from django.db import models
+
+from ..customers.models import Customer
 
 
 class Account(models.Model):
     account_no = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='Unique ID for account')
-    user = models.ForeignKey(
-        User,  on_delete=models.SET_NULL, null=True
+    customer = models.ForeignKey(
+        Customer,  on_delete=models.SET_NULL, null=True
     )
     balance = models.DecimalField(
         default=0,
