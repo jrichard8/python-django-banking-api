@@ -29,3 +29,7 @@ class AccountBalanceForm(forms.ModelForm):
         model = Account
         fields = ('account_no',)
 
+    def get_balance(self):
+        account_id = self.data['account_no']
+        account = Account.objects.get(account_no=account_id)
+        return account.balance, account_id

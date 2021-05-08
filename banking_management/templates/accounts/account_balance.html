@@ -5,11 +5,27 @@
 {% load crispy_forms_tags %}
 
 <div class="container">
-  <h1>Create new account</h1>
-  <form method="get">
+  <h1>Get balance for an Account</h1>
+  <form method="post">
     {% csrf_token %}
-    {{ account_form|crispy }}
-    <button type="submit">Create</button>
+    <select class="form-control"  id="account_no" name="account_no">
+      {% if selected_account %}
+      <option value="{{ selected_account }}" selected disabled hidden>{{ selected_account }}</option>
+      {% else %}
+       <option value="" selected disabled hidden>Select an account</option>
+      {% endif %}
+      {% for account in account_list %}
+        <option value="{{ account.account_no }}">{{ account.account_no }}</option>
+      {% endfor %}
+      </select>
+      <input class="btn btn-primary" type="submit" value="Select">
   </form>
+  <div class="card">
+    <div class="card-body">
+      {% if balance %}
+      <p> {{ balance }} </p>
+      {% endif %}
+    </div>
+  </div>
 </div>
 {% endblock %}

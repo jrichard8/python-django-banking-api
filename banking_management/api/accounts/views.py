@@ -27,7 +27,16 @@ def create_account_request(request):
 
 
 def get_balance_request(request):
+    balance = None
+    select_account = None
+    if request.method == "POST":
+        form = AccountBalanceForm(request.POST)
+        balance, select_account = form.get_balance()
+
     form = AccountBalanceForm
-    customer_list = Customer.objects.all()
-    context = {'customer_list': customer_list, 'account_form': form}
+    account_list = Account.objects.all()
+    context = {'account_list': account_list,
+               'account_form': form,
+               'balance': balance,
+               'selected_account': select_account}
     return render(request, "accounts/account_balance.html", context)
