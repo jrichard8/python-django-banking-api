@@ -31,19 +31,21 @@ class AccountTestCase(TestCase):
         self.client = Client()
 
     def test_account_object_creation(self):
-        """Animals that can speak are correctly identified"""
+        """Test accounts creation in DB."""
         acc = Account.objects.get(account_no=acc_no1)
         self.assertEqual(acc.balance, 2500)
         self.assertEqual(acc.creation_date, today)
         self.assertEqual(acc.customer.age, 42)
 
     def test_list_account(self):
+        """Test return of endpoint /accounts."""
         response = self.client.get('/accounts/')
         account_list = list(response.context['account_list'])
         self.assertEqual(len(account_list), 2)
         self.assertEqual(uuid.UUID(str(account_list[0])), acc_no1)
 
     def test_create_account(self):
+        """Test return and behavior of endpoint /accounts/new."""
         response = self.client.get('/accounts/new')
         customer_list = list(response.context['customer_list'])
         self.assertEqual(len(customer_list), 2)
@@ -56,6 +58,7 @@ class AccountTestCase(TestCase):
         self.assertNotEqual(uuid.UUID(str(account_list[2])), acc_no2)
 
     def test_get_balance(self):
+        """Test return and behavior of endpoint /accounts/balance."""
         response = self.client.get('/accounts/balance')
         account_list = list(response.context['account_list'])
         self.assertEqual(len(account_list), 2)

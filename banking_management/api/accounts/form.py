@@ -8,6 +8,10 @@ from ..customers.models import Customer
 
 
 class NewAccountForm(forms.ModelForm):
+    """
+    Form for new account creation.
+    It take customer_id and balance as input.
+    """
     class Meta:
         model = Account
         fields = ('customer', 'balance')
@@ -28,6 +32,10 @@ class NewAccountForm(forms.ModelForm):
 
 
 class AccountBalanceForm(forms.ModelForm):
+    """
+    Form for getting balance of a given account.
+    It take account_no as input.
+    """
     class Meta:
         model = Account
         fields = ('account_no',)

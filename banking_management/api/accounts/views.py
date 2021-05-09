@@ -7,12 +7,23 @@ from ..customers.models import Customer
 
 
 def list_account_request(request):
+    """
+    return a list of all accounts
+    """
     account_list = Account.objects.all()
     context = {'account_list': account_list}
     return render(request, "accounts/account_list.html", context)
 
 
 def create_account_request(request):
+    """
+    Create a new Account.
+    POST /account/new
+    {
+    "customer": <customer_id>,
+    "balance": "10000"
+    }
+    """
     if request.method == "POST":
         form = NewAccountForm(request.POST)
         if form.is_valid():
@@ -27,6 +38,13 @@ def create_account_request(request):
 
 
 def get_balance_request(request):
+    """
+    Return balance of a given account.
+    POST /account/balance
+    {
+        "account_no": <account_id>
+    }
+    """
     balance = None
     select_account = None
     if request.method == "POST":
