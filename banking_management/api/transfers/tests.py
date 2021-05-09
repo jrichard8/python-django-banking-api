@@ -79,6 +79,30 @@ class TransferTestCase(TestCase):
         new_balance_acc1 = balance_response_acc1.context['balance']
         self.assertEqual(new_balance_acc1, 4500.00)
 
+    def test_create_transfer_fail_amount_too_large(self):
+        response_post = self.client.post('/transfers/new',
+                         {"amount": 10000,
+                          "from_account": acc_no1,
+                          "to_account": acc_no2})
+        messages = list(response_post.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]), 'Unsuccessful creation. Invalid information.')
+        response = self.client.get('/transfers/')
+        transfer_list = list(response.context['transfer_list'])
+        self.assertEqual(len(transfer_list), 2)
+
+    def test_create_transfer_fail_same_acc_id(self):
+        response_post = self.client.post('/transfers/new',
+                         {"amount": 1000,
+                          "from_account": acc_no1,
+                          "to_account": acc_no1})
+        messages = list(response_post.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]), 'Unsuccessful creation. Invalid information.')
+        response = self.client.get('/transfers/')
+        transfer_list = list(response.context['transfer_list'])
+        self.assertEqual(len(transfer_list), 2)
+
     def test_get_transfer_history(self):
         """Test return and behavior of endpoint /transfer/history."""
         response = self.client.post('/transfers/history',
@@ -87,4 +111,6 @@ class TransferTestCase(TestCase):
         account = response.context['selected_account']
         self.assertEqual(len(transfer_list), 2)
         self.assertEqual(uuid.UUID(str(account)), acc_no1)
+
+
 
