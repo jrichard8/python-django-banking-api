@@ -9,6 +9,11 @@ class NewCustomerForm(forms.ModelForm):
         fields = ('name', 'age')
 
     def save(self, commit=True):
-        name = self.data['name']
-        age = self.data['age']
+        name = self.data.get('name')
+        age = self.data.get('age')
         Customer(name=name, age=age).save()
+
+    def is_valid(self):
+        if self.data.get('name') is None or self.data.get('age') is None:
+            return False
+        return True

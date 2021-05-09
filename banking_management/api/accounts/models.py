@@ -6,6 +6,7 @@ from ..customers.models import Customer
 
 
 class Account(models.Model):
+    """structure defining a bank account."""
     account_no = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='Unique ID for account')
     customer = models.ForeignKey(
         Customer,  on_delete=models.SET_NULL, null=True
