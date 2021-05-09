@@ -9,6 +9,7 @@ from ..accounts.models import Account
 
 
 class NewTransferForm(forms.ModelForm):
+    """Form to create a New transfer."""
     class Meta:
         model = Transfer
         fields = ('amount', 'from_account', 'to_account')
@@ -54,6 +55,7 @@ class NewTransferForm(forms.ModelForm):
 
 
 class TransferHistoryForm(forms.ModelForm):
+    """Form to create to fetch transfer history for a given account_no."""
     class Meta:
         model = Account
         fields = ('account_no',)

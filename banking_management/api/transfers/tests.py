@@ -81,9 +81,9 @@ class TransferTestCase(TestCase):
 
     def test_create_transfer_fail_amount_too_large(self):
         response_post = self.client.post('/transfers/new',
-                         {"amount": 10000,
-                          "from_account": acc_no1,
-                          "to_account": acc_no2})
+                                         {"amount": 10000,
+                                          "from_account": acc_no1,
+                                          "to_account": acc_no2})
         messages = list(response_post.context['messages'])
         self.assertEqual(len(messages), 1)
         self.assertEqual(str(messages[0]), 'Unsuccessful creation. Invalid information.')
@@ -93,9 +93,9 @@ class TransferTestCase(TestCase):
 
     def test_create_transfer_fail_same_acc_id(self):
         response_post = self.client.post('/transfers/new',
-                         {"amount": 1000,
-                          "from_account": acc_no1,
-                          "to_account": acc_no1})
+                                         {"amount": 1000,
+                                          "from_account": acc_no1,
+                                          "to_account": acc_no1})
         messages = list(response_post.context['messages'])
         self.assertEqual(len(messages), 1)
         self.assertEqual(str(messages[0]), 'Unsuccessful creation. Invalid information.')
@@ -111,6 +111,3 @@ class TransferTestCase(TestCase):
         account = response.context['selected_account']
         self.assertEqual(len(transfer_list), 2)
         self.assertEqual(uuid.UUID(str(account)), acc_no1)
-
-
-

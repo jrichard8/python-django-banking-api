@@ -4,6 +4,7 @@ from .models import Customer
 
 
 class NewCustomerForm(forms.ModelForm):
+    """Form to create a New customer."""
     class Meta:
         model = Customer
         fields = ('name', 'age')
