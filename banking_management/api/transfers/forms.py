@@ -1,18 +1,14 @@
 import datetime
 
 from django import forms
-from django.contrib import messages
+from django.db.models import Q
 from django.forms.utils import ErrorList
-from rest_framework.exceptions import ValidationError
 
 from .models import Transfer
 from ..accounts.models import Account
 
 
 class NewTransferForm(forms.ModelForm):
-
-
-
     class Meta:
         model = Transfer
         fields = ('amount', 'from_account', 'to_account')
@@ -27,7 +23,7 @@ class NewTransferForm(forms.ModelForm):
         self.fa = None
 
     def save(self, commit=True):
-        amount = self.data['amount']
+        amount = self.data.get('amount')
         new_balance = float(self.ta.balance) + float(amount)
         self.ta.balance = new_balance
         self.ta.save()
@@ -35,9 +31,17 @@ class NewTransferForm(forms.ModelForm):
         Transfer(amount=amount, from_account=self.fa, to_account=self.ta, date=formatted_date).save()
 
     def is_valid(self):
-        amount = self.data['amount']
-        from_account_id = self.data['from_account']
-        to_account_id = self.data['to_account']
+        amount = self.data.get('amount')
+        if amount is None:
+            return False
+        from_account_id = self.data.get('from_account')
+        to_account_id = self.data.get('to_account')
+        if from_account_id is None or to_account_id is None:
+            return False
+        if from_account_id == to_account_id:
+            return False
+        if float(amount) <= 0:
+            return False
         fa = Account.objects.get(account_no=from_account_id)
         ta = Account.objects.get(account_no=to_account_id)
         self.fa = fa
@@ -47,3 +51,19 @@ class NewTransferForm(forms.ModelForm):
         return True
 
 
+class TransferHistoryForm(forms.ModelForm):
+    class Meta:
+        model = Account
+        fields = ('account_no',)
+
+    def get_history(self):
+        account_id = self.data.get('account_no')
+        transfer_list = list(Transfer.objects
+                             .filter(Q(from_account=account_id) | Q(to_account=account_id))
+                             .order_by('date'))
+        return transfer_list, account_id
+
+    def is_valid(self):
+        if self.data.get('account_no') is None:
+            return False
+        return True

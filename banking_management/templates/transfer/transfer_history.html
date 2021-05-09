@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% load crispy_forms_tags %}
+
+<div class="container">
+  <h1>Get transfer history for an Account</h1>
+  <form method="post">
+    {% csrf_token %}
+    <select class="form-control"  id="account_no" name="account_no">
+      {% if selected_account %}
+      <option value="{{ selected_account }}" selected disabled hidden>{{ selected_account }}</option>
+      {% else %}
+       <option value="" selected disabled hidden>Select an account</option>
+      {% endif %}
+      {% for account in account_list %}
+        <option value="{{ account.account_no }}">{{ account.account_no }}</option>
+      {% endfor %}
+      </select>
+      <input class="btn btn-primary" type="submit" value="Select">
+  </form>
+  <div class="row">
+      {% if transfer_list %}
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">id</th>
+              <th scope="col">amount</th>
+              <th scope="col">from</th>
+              <th scope="col">to</th>
+              <th scope="col">date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for transfer in transfer_list %}
+            <tr>
+              <td>{{ transfer.id }}</td>
+              <td>{{ transfer.amount }}</td>
+              <td>{{ transfer.from_account }}</td>
+              <td>{{ transfer.to_account }}</td>
+              <td>{{ transfer.date }}</td>
+            </tr>
+           {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+            <p>No transfers are available.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

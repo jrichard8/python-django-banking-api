@@ -31,7 +31,11 @@ def get_balance_request(request):
     select_account = None
     if request.method == "POST":
         form = AccountBalanceForm(request.POST)
-        balance, select_account = form.get_balance()
+        if form.is_valid():
+            balance, select_account = form.get_balance()
+            messages.success(request, "Ok !")
+        else:
+            messages.error(request, "Invalid information. Select an account number")
 
     form = AccountBalanceForm
     account_list = Account.objects.all()

@@ -2,10 +2,8 @@ import datetime
 from uuid import uuid4
 
 from django import forms
-from django.contrib.auth.models import User
 
 from .models import Account
-
 from ..customers.models import Customer
 
 
@@ -15,13 +13,18 @@ class NewAccountForm(forms.ModelForm):
         fields = ('customer', 'balance')
 
     def save(self, commit=True):
-        customer_id = self.data['customer']
-        balance = self.data['balance']
+        customer_id = self.data.get('customer')
+        balance = self.data.get('balance')
         uuid = uuid4()
         customer = Customer.objects.get(id=customer_id)
         formatted_date = datetime.date.today().strftime("%Y-%m-%d")
         acc = Account(account_no=uuid, balance=balance, customer=customer, creation_date=formatted_date)
         acc.save()
+
+    def is_valid(self):
+        if self.data.get('customer') is None or self.data.get('balance') is None:
+            return False
+        return True
 
 
 class AccountBalanceForm(forms.ModelForm):
@@ -33,3 +36,8 @@ class AccountBalanceForm(forms.ModelForm):
         account_id = self.data['account_no']
         account = Account.objects.get(account_no=account_id)
         return account.balance, account_id
+
+    def is_valid(self):
+        if self.data.get('account_no') is None:
+            return False
+        return True
