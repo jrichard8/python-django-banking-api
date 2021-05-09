@@ -25,10 +25,12 @@ class NewTransferForm(forms.ModelForm):
     def save(self, commit=True):
         amount = self.data.get('amount')
         new_balance = float(self.ta.balance) + float(amount)
-        self.ta.balance = new_balance
-        self.ta.save()
         formatted_date = datetime.date.today().strftime("%Y-%m-%d")
         Transfer(amount=amount, from_account=self.fa, to_account=self.ta, date=formatted_date).save()
+        self.ta.balance = new_balance
+        self.ta.save()
+        self.fa.balance = float(self.fa.balance) - float(amount)
+        self.fa.save()
 
     def is_valid(self):
         amount = self.data.get('amount')
