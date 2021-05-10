@@ -1,3 +1,56 @@
+# Banking API
+
+## Install Required Packages
+```shell
+ pip install -r requirements.txt
+```
+
+## Running the Application
+Go to into the banking API app
+```shell
+cd banking_management
+```
+Before running the application we need to create the needed DB tables:
+```shell
+./manage.py migrate
+```
+Now you can run the development web server:
+```shell
+./manage.py runserver
+```
+
+## User Manual
+* Register as a new user:
+  ![](./asset/register.PNG)
+  
+* Login with your user
+  
+* Create some customers:
+  ![alt text](./asset/Customer.PNG)
+  
+* Create an account attached to a customer:
+  ![alt text](./asset/Account.PNG)
+  
+* Make some transfers between two accounts:
+  * you have to follow some rules:
+    * Account "from" and "to" should be different
+    * The amount of the transfer should <= of the customer balance
+  ![alt text](./asset/Transfer.PNG)
+
+* You can now look at the transfer history for a given account:
+  ![alt text](./asset/TransferHisto.PNG)
+  
+* And finally check balance for a given account:
+  ![alt text](./asset/AccountBalance.PNG)
+
+#Conclusion
+
+Hope you enjoyed reading.
+I had fun coding this application but I'm not to my advantage since I've never used Django before
+I'm more used to using the framework like [Flask](https://flask.palletsprojects.com/en/1.1.x/) or [Fast API](https://fastapi.tiangolo.com/)
+Thanks.
+
+----------------------------------------
 ### Objective
 
 Your assignment is to build an internal API for a fake financial institution using Python and Django.
